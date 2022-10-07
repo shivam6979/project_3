@@ -1,30 +1,37 @@
-const mongoose = require("mongoose");
-const moment = require("moment")
+const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 
-const rewiewSchema = new mongoose.Schema({
+const reviewSchema = new mongoose.Schema({
 
     bookId: {
         type: ObjectId,
-        ref: "Books",
-        require: true
+        required: true,
+        ref: ('Book')
     },
     reviewedBy: {
         type: String,
-        require: true,
-        default: 'Guest',
-        value: {
-            type: ObjectId,
-            ref: "name"
-        }
+        required: true,
+        default: 'Guest'
     },
-    reviewedAt: { type: Date, default: () => moment().format('YYYY-MM-DD HH:mm:ss'), require: true },
-    rating: { type: Number, require: true },
-    review: { type: String },
-    isDeleted: { type: Boolean, default: false },
+    reviewedAt: {
+        type: Date,
+        required: true
+    },
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5,
+        required: true
+    },
+    review: {
+        type: String
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    }
 
+}, { timestamps: true })
 
-
-});
-module.exports = mongoose.model("Review", rewiewSchema)
+module.exports = mongoose.model('Review', reviewSchema)
